@@ -13,7 +13,7 @@ restService.use(
 
 restService.use(bodyParser.json());
 
-restService.post("/echo", function(req, res) {
+restService.post("/echo", function (req, res) {
   var temp = {
     google: {
       expectUserResponse: true,
@@ -30,21 +30,21 @@ restService.post("/echo", function(req, res) {
   };
   var speech =
     req.body.queryResult &&
-    req.body.queryResult.parameters &&
-    req.body.queryResult.parameters.echoText
+      req.body.queryResult.parameters &&
+      req.body.queryResult.parameters.echoText
       ? req.body.queryResult.parameters.echoText
       : "Seems like some problem. Speak again.";
   return res.json({
     payload: temp,
     data: temp,
-    fulfillmentText: "Sample response",
+    fulfillmentText: speech,
     speech: speech,
     displayText: speech,
     source: "webhook-echo-sample"
   });
 });
 
-restService.post("/audio", function(req, res) {
+restService.post("/audio", function (req, res) {
   var speech = "";
   switch (req.body.result.parameters.AudioSample.toLowerCase()) {
     //Speech Synthesis Markup Language 
@@ -137,7 +137,7 @@ restService.post("/audio", function(req, res) {
   });
 });
 
-restService.post("/video", function(req, res) {
+restService.post("/video", function (req, res) {
   return res.json({
     speech:
       '<speak>  <audio src="https://www.youtube.com/watch?v=VX7SSnvpj-8">did not get your MP3 audio file</audio></speak>',
@@ -147,7 +147,7 @@ restService.post("/video", function(req, res) {
   });
 });
 
-restService.post("/slack-test", function(req, res) {
+restService.post("/slack-test", function (req, res) {
   var slack_message = {
     text: "Details of JIRA board for Browse and Commerce",
     attachments: [
@@ -212,6 +212,6 @@ restService.post("/slack-test", function(req, res) {
   });
 });
 
-restService.listen(process.env.PORT || 8000, function() {
+restService.listen(process.env.PORT || 8000, function () {
   console.log("Server up and listening");
 });
