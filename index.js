@@ -14,6 +14,13 @@ restService.use(
 restService.use(bodyParser.json());
 
 restService.post("/echo", function (req, res) {
+  var speech =
+    req.body.queryResult &&
+      req.body.queryResult.parameters &&
+      req.body.queryResult.parameters.echoText
+      ? req.body.queryResult.parameters.echoText
+      : "Seems like some problem. Speak again.";
+
   var temp = {
     google: {
       expectUserResponse: true,
@@ -21,23 +28,18 @@ restService.post("/echo", function (req, res) {
         items: [
           {
             simpleResponse: {
-              textToSpeech: "this is a simple response"
+              textToSpeech: speech
             }
           }
         ]
       }
     }
   };
-  var speech =
-    req.body.queryResult &&
-      req.body.queryResult.parameters &&
-      req.body.queryResult.parameters.echoText
-      ? req.body.queryResult.parameters.echoText
-      : "Seems like some problem. Speak again.";
+
   return res.json({
     payload: temp,
     data: temp,
-    fulfillmentText: speech,
+    fulfillmentText: "Sample response",
     speech: speech,
     displayText: speech,
     source: "webhook-echo-sample"
